@@ -67,6 +67,7 @@ with open("sample.txt", "r") as file:
     text = file.read()
 
 words = text.split()   # build this once here, since multiple functions need it
+cleaned_words = clean_words(words)
 
 lines_count = count_lines(text)
 word_count = count_words(text)
