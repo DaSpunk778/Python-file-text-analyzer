@@ -34,7 +34,33 @@ def count_target(words, target_word):
         if word == target_word:
             count += 1
     return count
+# level 4
 
+def clean_words(words):
+    # normalize every word: lowercase it, and strip punctuation off both ends
+    punctuation = '.,!?";:()[]{}\'-'   # manually listing common punctuation, no import needed
+    cleaned = []
+    for word in words:
+        lower_word = word.lower()
+        clean_word = lower_word.strip(punctuation)
+        cleaned.append(clean_word)
+    return cleaned
+
+
+def top_5_words(cleaned_words):
+    # manual frequency count using a dictionary
+    word_frequencies = {}
+    for word in cleaned_words:
+        if word in word_frequencies:
+            word_frequencies[word] += 1
+        else:
+            word_frequencies[word] = 1
+
+    # convert to a list of (word, count) pairs, then sort by count descending
+    freq_list = list(word_frequencies.items())
+    freq_list.sort(key=lambda item: item[1], reverse=True)
+
+    return freq_list[:5]
 
 # --- Main program: read the file, then call every function ---
 with open("sample.txt", "r") as file:
@@ -48,7 +74,8 @@ char_count, char_count_no_space, sentence_count = char_sent(text)
 longest_word, shortest_word = long_short(words)
 
 target_word = "python"
-target_count = count_target(words, target_word)
+target_count = count_target(cleaned_words, target_word) 
+top5 = top_5_words(cleaned_words)
 
 print(f"lines: {lines_count}")
 print(f"words: {word_count}")
@@ -58,3 +85,4 @@ print(f"sentence: {sentence_count}")
 print(f"Longest word: {longest_word}")
 print(f"Shortest word: {shortest_word}")
 print(f'"{target_word}" appears: {target_count} times')
+print("Top 5 words:", top5)
