@@ -28,23 +28,25 @@ def long_short(words):
 
     return longest_word, shortest_word
 
-def count_target(words, target_word):
-    count = 0
+
+# level 4
+def clean_words(words):
+    # normalize every word: lowercase it, and strip punctuation off both ends
+    punctuation = '.,!?";:()[]{}\'-'   # we manually listed the common punctuation
+    cleaned = []
     for word in words:
+        fold_word = word.casefold()
+        clean_word = fold_word.strip(punctuation)
+        cleaned.append(clean_word)
+    return cleaned
+
+def count_target(clean_word, target_word):
+    target_word=target_word.casefold()
+    count = 0
+    for word in clean_word:
         if word == target_word:
             count += 1
     return count
-# level 4
-
-def clean_words(words):
-    # normalize every word: lowercase it, and strip punctuation off both ends
-    punctuation = '.,!?";:()[]{}\'-'   # manually listing common punctuation, no import needed
-    cleaned = []
-    for word in words:
-        lower_word = word.lower()
-        clean_word = lower_word.strip(punctuation)
-        cleaned.append(clean_word)
-    return cleaned
 
 
 def top_5_words(cleaned_words):
@@ -62,19 +64,22 @@ def top_5_words(cleaned_words):
 
     return freq_list[:5]
 
-# --- Main program: read the file, then call every function ---
+#Main program: read the file, then call every function 
 with open("sample.txt", "r") as file:
     text = file.read()
 
-words = text.split()   # build this once here, since multiple functions need it
-cleaned_words = clean_words(words)
+
+words = text.split()  # build this once here, since multiple functions need it
+
+
 
 lines_count = count_lines(text)
 word_count = count_words(text)
 char_count, char_count_no_space, sentence_count = char_sent(text)
 longest_word, shortest_word = long_short(words)
 
-target_word = "python"
+cleaned_words = clean_words(words)
+target_word = "Python"
 target_count = count_target(cleaned_words, target_word) 
 top5 = top_5_words(cleaned_words)
 
