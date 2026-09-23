@@ -59,8 +59,11 @@ def top_5_words(cleaned_words):
             word_frequencies[word] = 1
 
     # convert to a list of (word, count) pairs, then sort by count descending
+    def get_count(item):
+        return item[1]
+    
     freq_list = list(word_frequencies.items())
-    freq_list.sort(key=lambda item: item[1], reverse=True)
+    freq_list.sort(key = get_count, reverse=True)
 
     return freq_list[:5]
 
@@ -79,7 +82,7 @@ char_count, char_count_no_space, sentence_count = char_sent(text)
 longest_word, shortest_word = long_short(words)
 
 cleaned_words = clean_words(words)
-target_word = "Python"
+target_word = "a"
 target_count = count_target(cleaned_words, target_word) 
 top5 = top_5_words(cleaned_words)
 
